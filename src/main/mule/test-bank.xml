@@ -3,7 +3,7 @@
     <http:listener-config name="test-bank-httpListenerConfig">
         <http:listener-connection host="localhost" port="8081" />
     </http:listener-config>
-    <apikit:config name="test-bank-config" api="resource::27ff09f7-1ac9-4854-8773-a9b11071b10f:test-bank:1.0.1:raml:zip:test-bank.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+    <apikit:config name="test-bank-config" api="resource::27ff09f7-1ac9-4854-8773-a9b11071b10f:test-bank:1.0.2:raml:zip:test-bank.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
 	<flow name="test-bank-main">
         <http:listener config-ref="test-bank-httpListenerConfig" path="/api/*">
             <http:response statusCode="#[vars.httpStatus default 200]">
@@ -20,7 +20,7 @@
         <ee:transform doc:name="Transform Message">
             <ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
+output application/json skipNullOn = "everywhere"
 ---
 {
 	"id":payload.id,
