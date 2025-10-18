@@ -36,7 +36,7 @@ output application/json
                 <ee:set-variable variableName="id"><![CDATA[attributes.uriParams.'id']]></ee:set-variable>
             </ee:variables>
         </ee:transform>
-        <logger level="INFO" message="put:\account\(id):application\json:test-bank-config" />
+        <logger level="INFO" message="flow executed" />
     </flow>
     <flow name="delete:\account\(id):test-bank-config">
         <ee:transform doc:name="Transform Message">
