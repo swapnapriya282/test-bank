@@ -48,16 +48,22 @@
 		</dependency>
 		<dependency>
 			<groupId>27ff09f7-1ac9-4854-8773-a9b11071b10f</groupId>
-			<artifactId>test-bank</artifactId>
-			<version>1.0.1</version>
-			<classifier>raml</classifier>
-			<type>zip</type>
+			<artifactId>mule-plugin-test-bank</artifactId>
+			<version>2.0.2</version>
+			<classifier>mule-plugin</classifier>
 		</dependency>
 		<dependency>
 			<groupId>org.mule.modules</groupId>
 			<artifactId>mule-apikit-module</artifactId>
 			<version>1.11.7</version>
 			<classifier>mule-plugin</classifier>
+		</dependency>
+		<dependency>
+			<groupId>27ff09f7-1ac9-4854-8773-a9b11071b10f</groupId>
+			<artifactId>test-bank</artifactId>
+			<version>2.0.9</version>
+			<classifier>raml</classifier>
+			<type>zip</type>
 		</dependency>
 	</dependencies>
 
