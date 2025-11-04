@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="get-data-idSub_Flow" doc:id="cde181a7-2984-41ef-8123-1315d1b19c02" >
+		<http:request method="GET" doc:name="Request" doc:id="707b55ac-5e14-4ccb-b2cc-d3f9ee92374a" config-ref="HTTP_Request_configuration" path="/api/3/project"/>
+		<ee:transform doc:name="Transform Message" doc:id="b923b447-07ee-42df-8f2f-d6a924c874e3" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+(payload filter ((item, index) -> item.id == vars.id)) map ((item1, index) -> {
+    "id":item1.id,
+    "key":item1.key,
+    "name":item1.name,
+    "projectTypeKey":item1.projectTypeKey,
+    "simplified":item1.simplified,
+    "style":item1.style,
+    "isPrivate":item1.isPrivate,
+
+} )]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+</mule>

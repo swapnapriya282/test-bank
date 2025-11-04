@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="d6bf64fc-91ec-4492-abd8-e49861ce4877" basePath="/rest" >
+		<http:request-connection protocol="HTTPS" host="prowesssoft-team.atlassian.net" port="443" >
+			<http:authentication >
+				<http:basic-authentication username="varsha.narla@prowesssoft.com" password="ATATT3xFfGF0lWIKURh7SapUWtMqkZwZzJa6ulmiLJf89TJk3iGdc5IjGB5YB7JBNukFmyUiNa6KopYuy4eN7CN2E_hTBpVcP4q-7mW0k_ZpBWC3aJT23QD3_j9t3Fi1Z1h6wmjcGNYRxlmhlqhnq6_eBstteWPfZOWTud-KoXBlnZ0qTtVlGjo=02F9B29F" />
+			</http:authentication>
+		</http:request-connection>
+	</http:request-config>
+	<sub-flow name="get-dataSub_Flow" doc:id="8a276240-9e3c-4c27-ba30-1c362f7b91b6" >
+		<http:request method="GET" doc:name="Request" doc:id="937876cf-443a-4a07-8b79-672bf1650a2c" config-ref="HTTP_Request_configuration" path="/api/3/project"/>
+		<ee:transform doc:name="Transform Message" doc:id="bcc432e1-9735-44dd-868c-b1f458ea89c5">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload map ((item, index) ->
+{
+    "id":item.id,
+    "key":item.key,
+    "name":item.name,
+    "projectTypeKey":item.projectTypeKey,
+    "simplified":item.simplified,
+    "style":item.style,
+    "isPrivate":item.isPrivate,
+    
+} )]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+</mule>

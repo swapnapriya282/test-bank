@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="post-data-arraySub_Flow" doc:id="e0a58b5e-cc5d-4f31-99e3-4d1bb7ccb8c9" >
+		<set-variable value="#[[]]" doc:name="Set Variable" doc:id="4b5636b6-ad99-4089-8913-8b5fa918c258" variableName="array"/>
+		<foreach doc:name="For Each" doc:id="05c59c30-6d48-4c34-85e3-976009d574a9" >
+			<set-variable value="#[payload]" doc:name="Set Variable" doc:id="3f0a14a9-6738-4dea-8826-64974fccae21" variableName="id"/>
+			<flow-ref doc:name="Flow Reference" doc:id="8caca151-e85a-4163-9fb5-ff2c43582cda" name="project-idSub_Flow"/>
+			<ee:transform doc:name="Transform Message" doc:id="388b7bab-7153-4faa-8f0f-1408a5fbd1d5" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="array" ><![CDATA[%dw 2.0
+output application/json
+---
+vars.array + payload]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+		</foreach>
+		<!-- [STUDIO:"Transform Message"]<ee:transform doc:name="Transform Message" doc:id="8e9133ec-5dc6-4d14-a8c3-69f1588eb603" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+&#45;&#45;-
+vars.array&#93;&#93;></ee:set-payload>
+			</ee:message>
+		</ee:transform> [STUDIO] -->
+		<set-payload value="#[vars.array]" doc:name="Set Payload" doc:id="e57ef2dd-6300-4091-b75d-2518315d1b55" />
+	</sub-flow>
+</mule>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="post-dataSub_Flow" doc:id="bef6e712-1f31-4c74-a546-bdd31615ef93" >
+		<scatter-gather doc:name="Scatter-Gather" doc:id="21e931d9-0f9b-42bb-b902-4ef4d3981801" >
+			<route >
+				<flow-ref doc:name="get-dataSub_Flow" doc:id="088ea80a-a0a9-4478-8862-88d42a820741" name="get-dataSub_Flow"/>
+			</route>
+			<route >
+				<flow-ref doc:name="Flow Reference" doc:id="63bcba7f-949c-47a9-a84c-9f42f82abca7" name="project-idSub_Flow"/>
+			</route>
+		</scatter-gather>
+		<ee:transform doc:name="Transform Message" doc:id="a44e22e9-577d-4132-bdfd-796997fac19f" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+// payload mapObject ((value, key, index) -> 
+// {
+//     (index): value.payload
+    
+// })
+(flatten(payload..payload)) distinctBy ((item, index) -> item.id)]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+</mule>

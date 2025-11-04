@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="project-idSub_Flow" doc:id="25d28c0b-c391-4c2b-9923-b8c9447fc270" >
+		<http:request method="GET" doc:name="Request" doc:id="b85a6749-1e0c-48ae-9993-277161c3948f" config-ref="HTTP_Request_configuration" path='/api/3/project/{projectId}'>
+			<http:uri-params ><![CDATA[#[output application/java
+---
+{
+	"projectId" : vars.id
+}]]]></http:uri-params>
+		</http:request>
+		<ee:transform doc:name="Transform Message" doc:id="ca037b69-4b90-47e4-a314-3c399c10d0ce">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+    "id": payload.id,
+    "key": payload.key,
+    "name": payload.name,
+    "projectTypeKey":payload.projectTypeKey,
+    "simplified": payload.simplified,
+    "style": payload.style,
+    "isPrivate": payload.isPrivate
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+</mule>
